@@ -12,4 +12,5 @@ import java.io.Serializable;
 public class CoffeeDTO {
     private String name;
     private int price;
+    private String title;
 }

@@ -57,7 +57,7 @@
 <script>
   let roomTitle = localStorage.getItem('roomTitle');
 
-  let sock = new SockJS("/ws-stomp"); //new SockJS()를 사용하여 아까 핸들러에서 지정해준 endPoint를 사용하여 연결을 해준다.
+  let sock = new SockJS("/ch02"); //new SockJS()를 사용하여 아까 핸들러에서 지정해준 endPoint를 사용하여 연결을 해준다.
   let ws = Stomp.over(sock);
 
   ws.connect({}, function(frame) {

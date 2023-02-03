@@ -16,6 +16,9 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+
+import javax.annotation.PostConstruct;
 
 @Configuration
 public class RedisConfig {
@@ -46,54 +49,79 @@ public class RedisConfig {
 
         return factory;
     }
+
     @Bean
-    public RedisTemplate<String, Object> redisTemplate() {
+    public RedisMessageListenerContainer redisMessageListenerContainer( // (1)
+                                                                        RedisConnectionFactory connectionFactory,
+                                                                        MessageListenerAdapter listenerAdapter,
+                                                                        ChannelTopic channelTopic
+    ) {
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.addMessageListener(listenerAdapter, channelTopic);
+        return container;
+    }
+
+    @Bean
+    public MessageListenerAdapter listenerAdapter(RedisMessageDtoSubscriber subscriber) { // (2)
+        return new MessageListenerAdapter(subscriber, "onMessage");
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate
+            (RedisConnectionFactory connectionFactory) { // (3)
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(connectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(ChatMessage.class)); // Jackson2JsonRedisSerializer<>(ChatMessage.class) 이거를 통해서 dto를 변환시켜서 저장시킬수있음
-        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
         return redisTemplate;
     }
 
+    @Bean
+    public ChannelTopic channelTopic() { // (4)
+        return new ChannelTopic("chatroom");
+    }
+
 //    @Bean
-//    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
+//    public RedisTemplate<String, Object> redisTemplate() {
 //        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-//        redisTemplate.setConnectionFactory(connectionFactory);
 //        redisTemplate.setKeySerializer(new StringRedisSerializer());
-//        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(ChatMessage.class));
+//        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(ChatMessage.class)); // Jackson2JsonRedisSerializer<>(ChatMessage.class) 이거를 통해서 dto를 변환시켜서 저장시킬수있음
+//        redisTemplate.setConnectionFactory(redisConnectionFactory());
 //        return redisTemplate;
 //    }
-
-
-    @Bean
-    public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory) {
-        RedisMessageListenerContainer redisMessageListenerContainer = new RedisMessageListenerContainer();
-        redisMessageListenerContainer.setConnectionFactory(connectionFactory);
-        redisMessageListenerContainer.addMessageListener(messageStringListener(), topic01());
-        redisMessageListenerContainer.addMessageListener(messageDtoListener(), topic02());
-
-        return redisMessageListenerContainer;
-    }
-
-    @Bean
-    public MessageListenerAdapter messageStringListener() {
-        return new MessageListenerAdapter(new RedisSubService());
-    }
-
-    @Bean
-    public MessageListenerAdapter messageDtoListener() {
-        return new MessageListenerAdapter(new RedisMessageDtoSubscriber());
-    }
-
-    @Bean
-    public ChannelTopic topic01() {
-        return new ChannelTopic("ch01");
-    }
-
-    @Bean
-    public ChannelTopic topic02() {
-        return new ChannelTopic("ch02");
-    }
+//
+//
+//    @Bean
+//    public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory,
+//                                                                        MessageListenerAdapter messageListenerAdapter) {
+//        RedisMessageListenerContainer redisMessageListenerContainer = new RedisMessageListenerContainer();
+//        redisMessageListenerContainer.setConnectionFactory(connectionFactory);
+//        redisMessageListenerContainer.addMessageListener(messageStringListener(), topic01());
+//        redisMessageListenerContainer.addMessageListener(messageListenerAdapter, topic02());
+//
+//        return redisMessageListenerContainer;
+//    }
+//
+//    @Bean
+//    public MessageListenerAdapter messageStringListener() {
+//        return new MessageListenerAdapter(new RedisSubService());
+//    }
+//
+//    @Bean
+//    public MessageListenerAdapter messageDtoListener(RedisMessageDtoSubscriber subscriber) {
+//        return new MessageListenerAdapter(subscriber);
+//    }
+//
+//    @Bean
+//    public ChannelTopic topic01() {
+//        return new ChannelTopic("ch01");
+//    }
+//
+//    @Bean
+//    public ChannelTopic topic02() {
+//        return new ChannelTopic("ch02");
+//    }
 }
 
 //    @Bean
