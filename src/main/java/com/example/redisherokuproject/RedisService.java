@@ -15,12 +15,8 @@ public class RedisService {
 
     public String redisString(RedisRequestDto requestDto) {
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-
         operations.set(requestDto.getName(), requestDto.getValue());
-
-
         String redis = (String)operations.get(requestDto.getName());
-
         return redis;
     }
 }

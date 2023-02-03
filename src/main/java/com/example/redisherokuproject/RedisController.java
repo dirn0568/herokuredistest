@@ -12,10 +12,19 @@ public class RedisController {
 
     private final RedisService redisService;
 
+    private final RedisPubService redisPubService;
+
 //    @PostMapping("/test")
 //    public void test(@RequestBody ChatMessage chatMessage) {
 //        redisPubService.sendMessage(chatMessage);
 //    }
+
+    @PostMapping("/test2")
+    public void test2() {
+        System.out.println("controller2");
+        redisPubService.sendMessage2();
+    }
+
     @PostMapping("/test")
     public String test(@RequestBody RedisRequestDto requestDto) {
         String value = redisService.redisString(requestDto);
