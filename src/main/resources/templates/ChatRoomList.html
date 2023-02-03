@@ -29,8 +29,17 @@
     function createRoom() {
         let roomTitle = $('#roomTitle').val();
         alert("먼저 여기로 와야함");
-        let tempHtml = makeHtml(roomTitle);
-        $('#roomList').append(tempHtml);
+        $.ajax({
+            type: "PUT",
+            url: "/pubsub/topics/" + roomTitle,
+            success: function (response) {
+                alert("참가 성공???");
+                console.log(response);
+                let tempHtml = makeHtml(roomTitle);
+                $('#roomList').append(tempHtml);
+            }
+        })
+        alert("생성 성공???");
     }
 
     function makeHtml(roomTitle) {
@@ -41,7 +50,7 @@
 
     function enterRoom(roomTitle) {
         localStorage.setItem('roomTitle',roomTitle);
-        location.href="/chat/room/"+roomTitle;
+        location.href="/pubsub/chat/"+roomTitle;
 
         // var httpRequest = new XMLHttpRequest(); // ajax랑 같은 비동기 방식??
         // httpRequest.open("GET", "/chat/room/"+roomUUID, true); // ajax랑 같은 비동기 방식??

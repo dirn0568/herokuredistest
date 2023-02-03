@@ -43,16 +43,4 @@ public class RedisController {
         System.out.println("test3");
         redisPubService.sendMessage3(coffeeDTO);
     }
-
-    ///////////////////////////////////////////////////////////////////////////////////////
-
-    @GetMapping("/chat/room/{roomUUID}")
-    public String chatRoom(Model model) {
-        return "ChatRoom";
-    }
-
-    @GetMapping("/chatrooms")
-    public String chatRooms(Model model) {
-        return "ChatRoomList";
-    }
 }

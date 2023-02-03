@@ -23,7 +23,7 @@ public class RedisMessageDtoSubscriber implements MessageListener {
     private static List<CoffeeDTO> coffeeDTOS = new ArrayList<>();
     private final ObjectMapper mapper = new ObjectMapper();
     private final RedisTemplate redisTemplate;
-    private final SimpMessageSendingOperations messagingTemplate; // stomp 같은걸 위한것?
+    //private final SimpMessageSendingOperations messagingTemplate; // stomp 같은걸 위한것?
     @Override
     public void onMessage(Message message, byte[] pattern) {
         System.out.println("알게쓴데 여기는 왜 안옴");
@@ -36,7 +36,7 @@ public class RedisMessageDtoSubscriber implements MessageListener {
             System.out.println("DTO Message receive : " + coffeeDTO.getPrice());
             System.out.println("Total Coffee : " + coffeeDTOS.size());
 
-            messagingTemplate.convertAndSend("/sub/chat/room/" + coffeeDTO.getTitle(), "메세지 보내깅");
+            //messagingTemplate.convertAndSend("/sub/chat/room/" + coffeeDTO.getTitle(), "메세지 보내깅");
         } catch (IOException e) {
             e.printStackTrace();
         }

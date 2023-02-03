@@ -51,36 +51,54 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisMessageListenerContainer redisMessageListenerContainer( // (1)
-                                                                        RedisConnectionFactory connectionFactory,
-                                                                        MessageListenerAdapter listenerAdapter,
-                                                                        ChannelTopic channelTopic
-    ) {
+    public RedisMessageListenerContainer redisMessageListener(RedisConnectionFactory connectionFactory) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.addMessageListener(listenerAdapter, channelTopic);
+
         return container;
     }
 
     @Bean
-    public MessageListenerAdapter listenerAdapter(RedisMessageDtoSubscriber subscriber) { // (2)
-        return new MessageListenerAdapter(subscriber, "onMessage");
-    }
-
-    @Bean
-    public RedisTemplate<String, Object> redisTemplate
-            (RedisConnectionFactory connectionFactory) { // (3)
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
+
         return redisTemplate;
     }
 
-    @Bean
-    public ChannelTopic channelTopic() { // (4)
-        return new ChannelTopic("chatroom");
-    }
+//    @Bean
+//    public RedisMessageListenerContainer redisMessageListenerContainer( // (1)
+//                                                                        RedisConnectionFactory connectionFactory,
+//                                                                        MessageListenerAdapter listenerAdapter,
+//                                                                        ChannelTopic channelTopic
+//    ) {
+//        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+//        container.setConnectionFactory(connectionFactory);
+//        container.addMessageListener(listenerAdapter, channelTopic);
+//        return container;
+//    }
+//
+//    @Bean
+//    public MessageListenerAdapter listenerAdapter(RedisMessageDtoSubscriber subscriber) { // (2)
+//        return new MessageListenerAdapter(subscriber, "onMessage");
+//    }
+//
+//    @Bean
+//    public RedisTemplate<String, Object> redisTemplate
+//            (RedisConnectionFactory connectionFactory) { // (3)
+//        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+//        redisTemplate.setConnectionFactory(connectionFactory);
+//        redisTemplate.setKeySerializer(new StringRedisSerializer());
+//        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
+//        return redisTemplate;
+//    }
+//
+//    @Bean
+//    public ChannelTopic channelTopic() { // (4)
+//        return new ChannelTopic("chatroom");
+//    }
 
 //    @Bean
 //    public RedisTemplate<String, Object> redisTemplate() {

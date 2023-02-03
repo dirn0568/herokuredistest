@@ -1,5 +1,0 @@
-spring:
-    redis:
-        host: redis://:p3ddca98b8f2ac4ddff623cfeed13b6dcab3a874b4f6bd3bb5ebdb7e9f3248dd4@ec2-34-193-69-177.compute-1.amazonaws.com:9429
-#        password: 1c55fbd4-6c32-455e-b063-d63f7bd0fc0a
-#        port: 9430
