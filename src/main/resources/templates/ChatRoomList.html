@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Websocket Chat</title>
+    <meta charset="utf-8">
+</head>
+<body>
+<div>
+    <div>
+        <div>
+            <h3>채팅방 리스트</h3>
+        </div>
+    </div>
+    <div>
+        <div>
+            <label>방제목</label>
+        </div>
+        <input type="text" id="roomTitle">
+        <div>
+            <button type="button" onclick="createRoom()">채팅방 개설</button>
+        </div>
+    </div>
+    <ul id="roomList">
+    </ul>
+</div>
+<!-- JavaScript -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>
+    function createRoom() {
+        let roomTitle = $('#roomTitle').val();
+        alert("먼저 여기로 와야함");
+        let tempHtml = makeHtml(roomTitle);
+        $('#roomList').append(tempHtml);
+    }
+
+    function makeHtml(roomTitle) {
+        return `<li class="list-group-item list-group-item-action" onclick="enterRoom('${roomTitle}')">
+                    ${roomTitle}
+                </li>`
+    }
+
+    function enterRoom(roomTitle) {
+        localStorage.setItem('roomTitle',roomTitle);
+        location.href="/chat/room/"+roomTitle;
+
+        // var httpRequest = new XMLHttpRequest(); // ajax랑 같은 비동기 방식??
+        // httpRequest.open("GET", "/chat/room/"+roomUUID, true); // ajax랑 같은 비동기 방식??
+        // httpRequest.setRequestHeader("Authorization", auth); // ajax랑 같은 비동기 방식??
+        // httpRequest.send(); // ajax랑 같은 비동기 방식??
+    }
+</script>
+</body>
+</html>

@@ -1,5 +1,7 @@
-package com.example.redisherokuproject;
+package com.example.redisherokuproject.Service;
 
+import com.example.redisherokuproject.dto.ChatMessage;
+import com.example.redisherokuproject.dto.CoffeeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -15,5 +17,10 @@ public class RedisPubService {
 
     public void sendMessage2() {
         redisTemplate.convertAndSend("ch01", "Coffee, latte");
+    }
+
+    public void sendMessage3(CoffeeDTO coffeeDTO) {
+        System.out.println("test3, service");
+        redisTemplate.convertAndSend("ch02", coffeeDTO);
     }
 }

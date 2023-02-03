@@ -8,6 +8,7 @@ public class RedisHerokuProjectApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RedisHerokuProjectApplication.class, args);
+
     }
 
 }

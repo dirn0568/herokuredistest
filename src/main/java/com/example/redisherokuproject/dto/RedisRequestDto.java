@@ -1,4 +1,4 @@
-package com.example.redisherokuproject;
+package com.example.redisherokuproject.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
