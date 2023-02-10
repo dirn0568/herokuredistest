@@ -1,4 +1,4 @@
-package com.example.redisherokuproject.Service;
+package com.example.redisherokuproject.redispubsub.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

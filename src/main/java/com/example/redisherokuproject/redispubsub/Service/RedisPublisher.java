@@ -1,4 +1,4 @@
-package com.example.redisherokuproject.Service;
+package com.example.redisherokuproject.redispubsub.Service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

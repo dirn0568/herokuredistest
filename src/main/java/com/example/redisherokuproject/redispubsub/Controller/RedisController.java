@@ -1,13 +1,12 @@
-package com.example.redisherokuproject.Controller;
+package com.example.redisherokuproject.redispubsub.Controller;
 
 
-import com.example.redisherokuproject.Service.RedisPubService;
-import com.example.redisherokuproject.dto.RedisRequestDto;
-import com.example.redisherokuproject.Service.RedisService;
-import com.example.redisherokuproject.dto.CoffeeDTO;
+import com.example.redisherokuproject.redispubsub.Service.RedisPubService;
+import com.example.redisherokuproject.redispubsub.dto.RedisRequestDto;
+import com.example.redisherokuproject.redispubsub.Service.RedisService;
+import com.example.redisherokuproject.redispubsub.dto.CoffeeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor

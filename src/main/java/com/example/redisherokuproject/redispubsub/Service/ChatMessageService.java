@@ -1,6 +1,6 @@
-package com.example.redisherokuproject.Service;
+package com.example.redisherokuproject.redispubsub.Service;
 
-import com.example.redisherokuproject.dto.CoffeeDTO;
+import com.example.redisherokuproject.redispubsub.dto.CoffeeDTO;
 import org.springframework.stereotype.Service;
 
 @Service

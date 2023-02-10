@@ -1,6 +1,6 @@
-package com.example.redisherokuproject.Service;
+package com.example.redisherokuproject.redispubsub.Service;
 
-import com.example.redisherokuproject.dto.RedisRequestDto;
+import com.example.redisherokuproject.redispubsub.dto.RedisRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;

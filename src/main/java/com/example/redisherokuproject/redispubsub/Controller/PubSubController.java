@@ -1,7 +1,7 @@
-package com.example.redisherokuproject.Controller;
+package com.example.redisherokuproject.redispubsub.Controller;
 
-import com.example.redisherokuproject.Service.RedisPublisher;
-import com.example.redisherokuproject.Service.RedisSubscriber;
+import com.example.redisherokuproject.redispubsub.Service.RedisPublisher;
+import com.example.redisherokuproject.redispubsub.Service.RedisSubscriber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;

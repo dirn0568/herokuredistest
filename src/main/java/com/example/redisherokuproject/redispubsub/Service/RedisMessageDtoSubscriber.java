@@ -1,16 +1,11 @@
-package com.example.redisherokuproject.Service;
+package com.example.redisherokuproject.redispubsub.Service;
 
-import com.example.redisherokuproject.dto.CoffeeDTO;
+import com.example.redisherokuproject.redispubsub.dto.CoffeeDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

@@ -1,9 +1,7 @@
-package com.example.redisherokuproject.config;
+package com.example.redisherokuproject.redispubsub.config;
 
 
-import com.example.redisherokuproject.Service.RedisMessageDtoSubscriber;
-import com.example.redisherokuproject.Service.RedisSubService;
-import com.example.redisherokuproject.dto.ChatMessage;
+import com.example.redisherokuproject.redispubsub.Service.RedisSubscriber;
 import io.lettuce.core.RedisURI;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,9 +14,6 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
-
-import javax.annotation.PostConstruct;
 
 @Configuration
 public class RedisConfig {
@@ -51,22 +46,56 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisMessageListenerContainer redisMessageListener(RedisConnectionFactory connectionFactory) {
+    public RedisMessageListenerContainer redisMessageListenerContainer( // (1)
+                                                                        RedisConnectionFactory connectionFactory,
+                                                                        MessageListenerAdapter listenerAdapter,
+                                                                        ChannelTopic channelTopic
+    ) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-
+        container.addMessageListener(listenerAdapter, channelTopic);
         return container;
     }
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
+    public MessageListenerAdapter listenerAdapter(RedisSubscriber subscriber) { // (2)
+        return new MessageListenerAdapter(subscriber, "onMessage");
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate
+            (RedisConnectionFactory connectionFactory) { // (3)
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
-
         return redisTemplate;
     }
+
+    @Bean
+    public ChannelTopic channelTopic() { // (4)
+        return new ChannelTopic("chatroom");
+    }
+
+    //////////////////////////////////////////////////////////////////////// 좀 신박하던데
+    //    @Bean
+    //    public RedisMessageListenerContainer redisMessageListener(RedisConnectionFactory connectionFactory) {
+    //        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+    //        container.setConnectionFactory(connectionFactory);
+    //
+    //        return container;
+    //    }
+    //
+    //    @Bean
+    //    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
+    //        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+    //        redisTemplate.setConnectionFactory(connectionFactory);
+    //        redisTemplate.setKeySerializer(new StringRedisSerializer());
+    //        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
+    //
+    //        return redisTemplate;
+    //    }
+    //////////////////////////////////////////////////////////////////////// 좀 신박하던데
 
 //    @Bean
 //    public RedisMessageListenerContainer redisMessageListenerContainer( // (1)
